@@ -31,18 +31,18 @@ router.post("/login", async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    const useremail = await User.findOne({email});
-    if(useremail.password === password){
+    const useremail = await User.findOne({ email });
+    if (useremail.password === password) {
       res.status(201).send({
-        message : "user exist",
-        success : true
-      })
-    }else{
+        message: "user exist",
+        success: true,
+      });
+    } else {
       res.status(500).send({
-        message : "invalid email"
-      })
+        message: "invalid email",
+      });
     }
-  }catch (err) {
+  } catch (err) {
     res.status(500).send({
       message: err.message,
       data: err,
@@ -50,6 +50,5 @@ router.post("/login", async (req, res) => {
     });
   }
 });
-
 
 module.exports = router;
