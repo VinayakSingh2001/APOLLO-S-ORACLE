@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
+  content: ["./src/**/*.{html,js,jsx}"],
   theme: {
     extend: {
       colors: {
@@ -15,10 +15,9 @@ module.exports = {
         "bubble-gum": "#ff77e9",
         bermuda: "#78dcca",
         mapely: "#fbbf24",
-        mapelyLight:"#fcd34d",
-        leaf:"#65a30d",
-        dLeaf:"#3f6212"
-
+        mapelyLight: "#fcd34d",
+        leaf: "#65a30d",
+        dLeaf: "#3f6212",
       },
     },
   },
