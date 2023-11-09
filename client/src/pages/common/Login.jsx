@@ -6,14 +6,15 @@ import { loginUser } from '../../apicalls/users';
 
 const Login = () => {
     const onFinish = async (values) => {
-        try{
+        try {
             const response = await loginUser(values);
-            if(response.success){
+            if (response.success) {
                 message.success(response.message);
-            }else{
+                localStorage.setItem('token', response.data);
+            } else {
                 message.error(response.message);
             }
-        }catch (error){
+        } catch (error) {
             message.error(error.message);
         }
     };

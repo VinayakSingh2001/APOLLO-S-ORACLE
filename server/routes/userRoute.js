@@ -1,4 +1,4 @@
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const router = require("express").Router();
 const User = require("../models/userModel");
 
@@ -28,20 +28,32 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const email = req.body.email;
-    const password = req.body.password;
-
-    const useremail = await User.findOne({ email });
-    if (useremail.password === password) {
-      res.status(201).send({
-        message: "user exist",
-        success: true,
-      });
-    } else {
-      res.status(500).send({
-        message: "invalid email",
-      });
+    //check if user exists
+    const useremail = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res
+        .status(200)
+        .send({ message: "user does not exist", success: false });
     }
+
+    //check password
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!validPassword) {
+      return res.status(200).send({ message: "Invalid Password" });
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "3d",
+    });
+
+    res.send({
+      message: "user logged in successfully",
+      success: true,
+      data: token,
+    });
   } catch (err) {
     res.status(500).send({
       message: err.message,
