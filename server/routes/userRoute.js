@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const router = require("express").Router();
 const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 
 router.post("/register", async (req, res) => {
   try {
@@ -10,6 +11,11 @@ router.post("/register", async (req, res) => {
         .status(200)
         .send({ message: "user already exist", success: false });
     }
+
+    //hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    req.body.password = hashedPassword;
 
     const newUser = await User(req.body);
     await newUser.save();
@@ -26,10 +32,11 @@ router.post("/register", async (req, res) => {
   }
 });
 
+
 router.post("/login", async (req, res) => {
   try {
     //check if user exists
-    const useremail = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res
         .status(200)
@@ -46,7 +53,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "3d",
+      expiresIn: "1d",
     });
 
     res.send({
