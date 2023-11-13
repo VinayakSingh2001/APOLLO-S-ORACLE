@@ -1,8 +1,8 @@
 import React from 'react'
-import sfb from "../assets/img/sfb.svg"
-import ins from "../assets/img/instagram.svg"
-import xt from "../assets/img/xt.svg"
-import ghb from "../assets/img/sgb.svg"
+import sfb from "./sfb.svg"
+import ins from "./instagram.svg"
+import xt from "./xt.svg"
+import ghb from "./sgb.svg"
 
 export default function Footer() {
   return (
