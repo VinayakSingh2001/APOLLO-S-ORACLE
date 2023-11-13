@@ -16,4 +16,13 @@ export const loginUser = async (payload) => {
   } catch (err) {
     return err.response.data;
   }
-}
+};
+
+export const getUserInfo = async () => {
+  try {
+    const response = await axiosInstance.get("/api/users/get-user-info");
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
