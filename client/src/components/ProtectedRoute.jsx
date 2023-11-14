@@ -4,7 +4,7 @@ import { message } from 'antd';
 import { getUserInfo } from '../apicalls/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../Redux/userSlice';
-
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Layout, Menu, Avatar } from 'antd';
 import {
@@ -19,6 +19,8 @@ const { Header, Sider, Content } = Layout;
 
 
 const ProtectedRoute = ({ children }) => {
+  const Navigate = useNavigate();
+  const [menu, setMenu] = useState([]);
 
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -27,8 +29,12 @@ const ProtectedRoute = ({ children }) => {
     try {
       const response = await getUserInfo();
       if (response.success) {
-
         dispatch(setUser(response.data));
+        if (response.data.isAdmin) {
+          setMenu(adminMenu);
+        } else {
+          setMenu(userMenu);
+        }
       } else {
         message.error(response.message)
       }
@@ -37,25 +43,55 @@ const ProtectedRoute = ({ children }) => {
     }
   }
 
+  const userMenu = [
+    {
+      title: "Home",
+      paths: ["/dashboard"],
+      icon: <HomeOutlined />,
+      onClick: () => Navigate("/dashboard")
+    },
+    {
+      title: "Exam",
+      paths: ["/exam"],
+      icon: <BookOutlined />,
+      onClick: () => Navigate("/exam")
+    },
+    {
+      title: "Attempts",
+      paths: ["/attempts"],
+      icon: <HourglassOutlined />,
+      onClick: () => Navigate("/attempts")
+    },
+    {
+      title: "Profile",
+      paths: ["/profile"],
+      icon: <UserOutlined />,
+      onClick: () => Navigate("/profile")
+    },
+    {
+      title: "Logout",
+      paths: ["/logout"],
+      icon: <LogoutOutlined />,
+      onClick: () => {
+        localStorage.removeItem('token');
+        Navigate('/login');
+      },
+    }
+  ]
+
+  const adminMenu = [];
+
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await getUserData();
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchData();
-  }, [getUserData]); // Include the dependency in the array
+    getUserData()
+  }, [])
 
 
   const [collapsed, setCollapsed] = useState(false);
 
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed);
-  };
+  // const toggleSidebar = () => {
+  //   setCollapsed(!collapsed);
+  // };
 
   // Replace the profileImgURL with the URL of the user's profile picture
   const profileImgURL = "https://example.comhttps://m.media-amazon.com/images/M/MV5BYzBiZTRlMzAtZWIwZC00YjM3LTk5YTAtMTRkNmFhYjRjMTdiXkEyXkFqcGdeQXJoYW5uYWg@._V1_.jpg/profile.jpg";
@@ -73,37 +109,19 @@ const ProtectedRoute = ({ children }) => {
         theme="dark"
       >
         <div className="logo p-3 text-white text-xl ml-14">Quizify</div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<HomeOutlined />}>
-            Dashboard
-          </Menu.Item>
-          <Menu.Item key="2" icon={<BookOutlined />}>
-            Exam
-          </Menu.Item>
-          <Menu.Item key="3" icon={<HourglassOutlined />}>
-            Attempts
-          </Menu.Item>
-          <Menu.Item key="4" icon={<UserOutlined />}>
-            Profile
-          </Menu.Item>
-          <Menu.Item key="5" icon={<LogoutOutlined />}>
-            Logout
-          </Menu.Item>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
+          {menu.map((item, index) => (
+            <Menu.Item key={index} onClick={item.onClick} >
+              {item.icon}
+              <span className='text-white'>{item.title}</span>
+            </Menu.Item>
+          ))}
         </Menu>
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
           <div className="flex items-center justify-between px-3 mr-4">
-            <div className="flex items-center">
-              <div className="cursor-pointer" onClick={toggleSidebar}>
-                {collapsed ? (
-                  <span className="text-white text-xl"></span>
-                ) : (
-                  <span className="text-white text-xl"></span>
-                )}
-              </div>
-
-            </div>
+            <div className="flex items-center"></div>
             <div className="flex items-center">
               <div className="mr-3">
                 <Avatar size="large" src={profileImgURL} />
