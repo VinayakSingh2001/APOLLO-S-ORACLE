@@ -1,36 +1,29 @@
-import React from 'react'
-import sfb from "./sfb.svg"
-import ins from "./instagram.svg"
-import xt from "./xt.svg"
-import ghb from "./sgb.svg"
+// src/components/ResponsiveFooter.js
+import React from 'react';
+import { FacebookOutlined, InstagramOutlined, GithubOutlined, TwitterOutlined } from '@ant-design/icons';
 
-export default function Footer() {
+const ResponsiveFooter = () => {
   return (
-    <div className='bg-[#2699fb] p-4'>
-    <div className='max-w-[1240px] w-full  mx-auto py-[10px] px-[8px] grid lg:grid-cols-2 gap-8 text-white'>
-      <div>
-        <h1 className='w-full text-3xl font-bold text-black'>QUIZIFY</h1>
-        <p className='py-4'>Created by quiz enthusiasts to help the one who want to learn and test their learning in easy tests.</p>
-        <div className='flex justify-between w-[10%] my-6 gap-10'>
-          <img src={sfb} alt=""/>
-          <img src={ins} alt=""/>
-          <img src={xt} alt="" />
-          <img src={ghb} alt="" />
+    <footer className="bg-gray-800 text-white py-4">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+        <div className="flex space-x-4 mb-4 md:mb-0">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 text-lg">
+            <FacebookOutlined style={{ fontSize: '1.5em' }} />
+          </a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 text-lg">
+            <InstagramOutlined style={{ fontSize: '1.5em' }} />
+          </a>
+          <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 text-lg">
+            <GithubOutlined style={{ fontSize: '1.5em' }} />
+          </a>
+          <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300 text-lg">
+            <TwitterOutlined style={{ fontSize: '1.5em' }} />
+          </a>
         </div>
+        <p className="text-sm">© 2023 Your Company</p>
       </div>
-      <div className='lg:col-span-1 flex justify-between mt-6'>
-        <div>
-          <h6 className='font-medium text-black'>About</h6>
-        </div>
-        <div>
-          <h6 className='font-medium text-black'>Support</h6>
-        </div>
-        
-        <div>
-          <h6 className='font-medium text-black'>Login/Register</h6>
-        </div>
-      </div>
-    </div>
-    </div>
-  )
-}
+    </footer>
+  );
+};
+
+export default ResponsiveFooter;

@@ -7,16 +7,6 @@ import Dashboard from "./pages/common/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-
-  const [user,setUser] = useState({})
-
-  useEffect(()=> {
-    google.accounts.id.initialize({
-      client_id:"",
-      
-
-    })
-  },[])
   return (
     <BrowserRouter>
       <Routes>
