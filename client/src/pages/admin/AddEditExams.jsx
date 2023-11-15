@@ -1,11 +1,26 @@
 import React from 'react'
 import PageTitle from '../../components/PageTitle';
-import { Form, Col, Row, Select } from "antd";
+import { Form, Col, Row, Select, message } from "antd";
+import { addExam } from '../../apicalls/exams';
+import { useNavigate } from "react-router-dom"
 
 const AddEditExams = () => {
 
-    const onFinish = (values) => {
-        console.log("Receved values of form", values);
+    const Navigate = useNavigate();
+
+    const onFinish = async (values) => {
+        try {
+            let response;
+            response = await addExam(values);
+            if (response.success) {
+                message.success(response.message);
+                Navigate('/admin/exams')
+            } else {
+                message.error(response.message);
+            }
+        } catch (error) {
+            message.error(error.message);
+        }
     }
 
     return (

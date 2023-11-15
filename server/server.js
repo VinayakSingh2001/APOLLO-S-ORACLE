@@ -5,8 +5,10 @@ const dbConfig = require("./config/dbConfig");
 
 app.use(express.json());
 const usersRoute = require("./routes/userRoute");
+const examsRoute = require("./routes/examsRoute");
 
 app.use("/api/users", usersRoute);
+app.use("/api/exams", examsRoute);
 
 console.log(process.env.MONGO_URL);
 const port = process.env.PORT || 3000;

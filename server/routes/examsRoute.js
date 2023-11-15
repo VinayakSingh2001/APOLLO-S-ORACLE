@@ -1,4 +1,5 @@
-const router = express("express").Router();
+const express = require("express");
+const router = express.Router();
 const Exam = require("../models/examModel");
 const authMiddleware = require("../middlewares/authMiddleware");
 
@@ -12,7 +13,7 @@ router.post("/add", authMiddleware, async (req, res) => {
         .status(200)
         .send({ message: "Exam already exists", success: false });
     }
-    req.body.questions = []
+    req.body.questions = [];
     const newExam = new Exam(req.body);
     await newExam.save();
     res.send({

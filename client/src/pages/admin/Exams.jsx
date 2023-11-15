@@ -7,7 +7,7 @@ const Exams = () => {
     const navigate = useNavigate();
     return (
         <div>
-            <div className='flex justify-between mt-2'>
+            <div className='flex justify-between mt-2 w-full ' >
                 <PageTitle title="Exams" />
 
                 <button className="primary-outlined-btn flex items-center " onClick={() => navigate("/admin/exams/add")}>
@@ -15,6 +15,7 @@ const Exams = () => {
                     Add Exam
                 </button>
             </div>
+            <div className="divider"></div>
         </div>
     )
 }
