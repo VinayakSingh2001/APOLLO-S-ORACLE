@@ -24,7 +24,7 @@ function App() {
           }
         />
 
-        <Route
+<Route
           path="/admin/exams"
           element={
             <ProtectedRoute>

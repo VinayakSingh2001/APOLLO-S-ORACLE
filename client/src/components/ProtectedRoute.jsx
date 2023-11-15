@@ -109,10 +109,10 @@ const ProtectedRoute = ({ children }) => {
     }
   ];
 
-
   useEffect(() => {
     getUserData()
   }, [])
+
 
 
   const activeRoute = window.location.pathname;
@@ -126,13 +126,13 @@ const ProtectedRoute = ({ children }) => {
 
   }
 
-
   const [collapsed, setCollapsed] = useState(false);
 
   // const toggleSidebar = () => {
   //   setCollapsed(!collapsed);
   // };
 
+  // Replace the profileImgURL with the URL of the user's profile picture
   const profileImgURL = "https://example.comhttps://m.media-amazon.com/images/M/MV5BYzBiZTRlMzAtZWIwZC00YjM3LTk5YTAtMTRkNmFhYjRjMTdiXkEyXkFqcGdeQXJoYW5uYWg@._V1_.jpg/profile.jpg";
 
   return (
@@ -152,7 +152,6 @@ const ProtectedRoute = ({ children }) => {
           {menu.map((item, index) => (
             <Menu.Item key={index} onClick={item.onClick} className={`menu-item ${getIsActiveorNot(item.paths) &&
               activeRoute === item.paths[0] && "active-menu-item"
-
               }`}>
               {item.icon}
               <span className='text-white'>{item.title}</span>
@@ -171,14 +170,15 @@ const ProtectedRoute = ({ children }) => {
               <div className="ml-3">
                 <h3 className="text-white text-xl" style={{ fontSize: '1.2em' }}>{user?.name}</h3>
               </div>
+              {/* Add any additional header options here */}
             </div>
           </div>
         </Header>
         <Content className="p-4">
+          {/* Content of your dashboard goes here */}
           <div className="bg-white w-full p-4 rounded-md shadow-md">
             {children}
           </div>
-          {/* {children} */}
         </Content>
       </Layout>
     </Layout>
