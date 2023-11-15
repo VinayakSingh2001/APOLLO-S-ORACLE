@@ -5,6 +5,8 @@ import Login from "./pages/common/Login";
 import Signup from "./pages/common/Signup";
 import Dashboard from "./pages/common/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Exams from "./pages/admin/Exams";
+import AddEditExams from "./pages/admin/AddEditExams";
 
 function App() {
   return (
@@ -18,6 +20,33 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/exams"
+          element={
+            <ProtectedRoute>
+              <Exams />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/exams/add"
+          element={
+            <ProtectedRoute>
+              <AddEditExams />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/exams/edit/:id"
+          element={
+            <ProtectedRoute>
+              <AddEditExams />
             </ProtectedRoute>
           }
         />

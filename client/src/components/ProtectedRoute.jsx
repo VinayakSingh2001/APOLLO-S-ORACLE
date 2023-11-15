@@ -51,16 +51,10 @@ const ProtectedRoute = ({ children }) => {
       onClick: () => Navigate("/dashboard")
     },
     {
-      title: "Exam",
-      paths: ["/exam"],
-      icon: <BookOutlined />,
-      onClick: () => Navigate("/exam")
-    },
-    {
-      title: "Attempts",
-      paths: ["/attempts"],
+      title: "Reports",
+      paths: ["/reports"],
       icon: <HourglassOutlined />,
-      onClick: () => Navigate("/attempts")
+      onClick: () => Navigate("/reports")
     },
     {
       title: "Profile",
@@ -79,12 +73,58 @@ const ProtectedRoute = ({ children }) => {
     }
   ]
 
-  const adminMenu = [];
+  const adminMenu = [
+    {
+      title: "Home",
+      paths: ["/dashboard"],
+      icon: <HomeOutlined />,
+      onClick: () => Navigate("/dashboard")
+    },
+    {
+      title: "Exams",
+      paths: ["/admin/exams"],
+      icon: <BookOutlined />,
+      onClick: () => Navigate("/admin/exams")
+    },
+    {
+      title: "Reports",
+      paths: ["/reports"],
+      icon: <HourglassOutlined />,
+      onClick: () => Navigate("/admin/reports")
+    },
+    {
+      title: "Profile",
+      paths: ["/profile"],
+      icon: <UserOutlined />,
+      onClick: () => Navigate("/profile")
+    },
+    {
+      title: "Logout",
+      paths: ["/logout"],
+      icon: <LogoutOutlined />,
+      onClick: () => {
+        localStorage.removeItem('token');
+        Navigate('/login');
+      },
+    }
+  ];
 
 
   useEffect(() => {
     getUserData()
   }, [])
+
+
+  const activeRoute = window.location.pathname;
+
+  const getIsActiveorNot = (paths) => {
+    if (paths.includes(activeRoute)) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
 
 
   const [collapsed, setCollapsed] = useState(false);
@@ -93,7 +133,6 @@ const ProtectedRoute = ({ children }) => {
   //   setCollapsed(!collapsed);
   // };
 
-  // Replace the profileImgURL with the URL of the user's profile picture
   const profileImgURL = "https://example.comhttps://m.media-amazon.com/images/M/MV5BYzBiZTRlMzAtZWIwZC00YjM3LTk5YTAtMTRkNmFhYjRjMTdiXkEyXkFqcGdeQXJoYW5uYWg@._V1_.jpg/profile.jpg";
 
   return (
@@ -111,7 +150,10 @@ const ProtectedRoute = ({ children }) => {
         <div className="logo p-3 text-white text-xl ml-14">Quizify</div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
           {menu.map((item, index) => (
-            <Menu.Item key={index} onClick={item.onClick} >
+            <Menu.Item key={index} onClick={item.onClick} className={`menu-item ${getIsActiveorNot(item.paths) &&
+              activeRoute === item.paths[0] && "active-menu-item"
+
+              }`}>
               {item.icon}
               <span className='text-white'>{item.title}</span>
             </Menu.Item>
@@ -129,15 +171,14 @@ const ProtectedRoute = ({ children }) => {
               <div className="ml-3">
                 <h3 className="text-white text-xl" style={{ fontSize: '1.2em' }}>{user?.name}</h3>
               </div>
-              {/* Add any additional header options here */}
             </div>
           </div>
         </Header>
         <Content className="p-4">
-          {/* Content of your dashboard goes here */}
-          <div className="bg-white p-4 rounded-md shadow-md">
+          <div className="bg-white w-full p-4 rounded-md shadow-md">
             {children}
           </div>
+          {/* {children} */}
         </Content>
       </Layout>
     </Layout>
