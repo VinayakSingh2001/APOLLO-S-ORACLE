@@ -9,6 +9,7 @@ import Exams from "./pages/admin/Exams";
 import AddEditExams from "./pages/admin/AddEditExams";
 import Buffer from "./components/Buffer";
 import { useSelector } from "react-redux";
+import About from "./pages/common/About";
 
 function App() {
   const {loading} = useSelector(state => state.loader)
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/about" element={<About />} />
           <Route
             path="/dashboard"
             element={
