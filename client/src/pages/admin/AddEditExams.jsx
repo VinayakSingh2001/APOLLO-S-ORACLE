@@ -3,13 +3,17 @@ import PageTitle from '../../components/PageTitle';
 import { Form, Col, Row, Select, message } from "antd";
 import { addExam } from '../../apicalls/exams';
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from 'react-redux';
+import { HideLoading, ShowLoading } from '../../Redux/bufferSlice';
+
 
 const AddEditExams = () => {
-
+    const dispatch = useDispatch();
     const Navigate = useNavigate();
 
     const onFinish = async (values) => {
         try {
+            dispatch(ShowLoading())
             let response;
             response = await addExam(values);
             if (response.success) {
@@ -18,7 +22,9 @@ const AddEditExams = () => {
             } else {
                 message.error(response.message);
             }
+            dispatch(HideLoading());
         } catch (error) {
+            dispatch(HideLoading());
             message.error(error.message);
         }
     }

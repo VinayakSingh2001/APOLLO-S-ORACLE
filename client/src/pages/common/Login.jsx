@@ -3,11 +3,16 @@ import { Form, Input, message } from 'antd';
 import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
 import { loginUser } from '../../apicalls/users';
+import { useDispatch } from 'react-redux';
+import { HideLoading, ShowLoading } from '../../Redux/bufferSlice';
 
 const Login = () => {
+    const dispatch = useDispatch();
     const onFinish = async (values) => {
         try {
+            dispatch(ShowLoading());
             const response = await loginUser(values);
+            dispatch(HideLoading());
             if (response.success) {
                 message.success(response.message);
                 localStorage.setItem('token', response.data);
@@ -16,6 +21,7 @@ const Login = () => {
                 message.error(response.message);
             }
         } catch (error) {
+            dispatch(HideLoading());
             message.error(error.message);
         }
     };

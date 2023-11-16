@@ -3,11 +3,17 @@ import { Form, Input, message } from 'antd';
 import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
 import { signupUser } from '../../apicalls/users';
+import { useDispatch } from 'react-redux';
+import { HideLoading, ShowLoading } from '../../Redux/bufferSlice';
+
 
 const Signup = () => {
+    const dispatch = useDispatch();
     const onFinish = async (values) => {
         try{
+            dispatch(ShowLoading());
             const response = await signupUser(values);
+            dispatch(HideLoading());
             if(response.success){
                 message.success(response.message);
             }else{
@@ -16,6 +22,7 @@ const Signup = () => {
 
 
         }catch (error){
+            dispatch(HideLoading());
             message.error(error.message);
         }
     }

@@ -14,6 +14,7 @@ import {
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
+import { HideLoading, ShowLoading } from '../Redux/bufferSlice';
 
 const { Header, Sider, Content } = Layout;
 
@@ -21,13 +22,15 @@ const { Header, Sider, Content } = Layout;
 const ProtectedRoute = ({ children }) => {
   const Navigate = useNavigate();
   const [menu, setMenu] = useState([]);
-
-  const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.users);
+
 
   const getUserData = async () => {
     try {
+      dispatch(ShowLoading())
       const response = await getUserInfo();
+      dispatch(HideLoading())
       if (response.success) {
         dispatch(setUser(response.data));
         if (response.data.isAdmin) {
@@ -39,6 +42,7 @@ const ProtectedRoute = ({ children }) => {
         message.error(response.message)
       }
     } catch (error) {
+      dispatch(HideLoading());
       message.error(error.message)
     }
   }
