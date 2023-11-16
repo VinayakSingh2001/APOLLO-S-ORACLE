@@ -1,10 +1,63 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PageTitle from '../../components/PageTitle'
 import { useNavigate } from 'react-router-dom'
+import { Table, message } from 'antd';
+import { useDispatch } from 'react-redux';
+import { getAllExams } from '../../apicalls/exams';
+import { ShowLoading, HideLoading } from '../../Redux/bufferSlice';
 
 
 const Exams = () => {
     const navigate = useNavigate();
+       const [exams, setExams] = React.useState([]);
+    const dispatch = useDispatch();
+    const columns = [
+        {
+            title: "Exam Name",
+            dataIndex: "name",
+        },
+        {
+            title: "Duration",
+            dataIndex: "duration",
+        },
+        {
+            title: "Category",
+            dataIndex: "category",
+        },
+        {
+            title: "Total Marks",
+            dataIndex: "totalMarks",
+        },
+        {
+            title: "Passing Marks",
+            dataIndex: "passingMarks",
+        },
+        {
+            title: "Action",
+            dataIndex: "action",
+            render: (text, record) =>(
+                <div></div>
+            ),
+        },
+    ]
+    const getExamsData = async () => {
+        try {
+            dispatch(ShowLoading())
+            const response = await getAllExams();
+            if (response.success) {
+                setExams(response.data);
+            } else {
+                message.error(response.message);
+            }
+        } catch (error) {
+            dispatch(HideLoading());
+            message.error(error.message);
+        }
+    }
+    useEffect( () => {
+        getExamsData();
+    },[])
+
     return (
         <div>
             <div className='flex justify-between mt-2 w-full ' >
@@ -15,7 +68,8 @@ const Exams = () => {
                     Add Exam
                 </button>
             </div>
-            <div className="divider"></div>
+            <Table columns={columns} dataSource={exams} />
+
         </div>
     )
 }
