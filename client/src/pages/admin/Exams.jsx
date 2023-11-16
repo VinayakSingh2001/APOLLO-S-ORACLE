@@ -38,7 +38,7 @@ const Exams = () => {
             render: (text, record) => (
                 <>
                     <div className='flex gap-4 '>
-                        <div className='cursor-pointer'><EditOutlined onClick={()=>navigate('/admin/exams/edit/${record._id}')} /></div>
+                        <div className='cursor-pointer'><EditOutlined onClick={() => navigate(`/admin/exams/edit/${record._id}`)} /></div>
                         <div className='cursor-pointer'> <DeleteOutlined /></div>
                     </div>
 
@@ -61,9 +61,9 @@ const Exams = () => {
             message.error(error.message);
         }
     }
-    useEffect( () => {
+    useEffect(() => {
         getExamsData();
-    },[])
+    }, [])
 
     return (
         <div>
