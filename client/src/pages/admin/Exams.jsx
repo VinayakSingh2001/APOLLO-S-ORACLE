@@ -50,6 +50,7 @@ const Exams = () => {
         try {
             dispatch(ShowLoading())
             const response = await getAllExams();
+            dispatch(HideLoading());
             if (response.success) {
                 setExams(response.data);
             } else {
