@@ -5,11 +5,11 @@ import { Table, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getAllExams } from '../../apicalls/exams';
 import { ShowLoading, HideLoading } from '../../Redux/bufferSlice';
-
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const Exams = () => {
     const navigate = useNavigate();
-       const [exams, setExams] = React.useState([]);
+    const [exams, setExams] = React.useState([]);
     const dispatch = useDispatch();
     const columns = [
         {
@@ -35,8 +35,14 @@ const Exams = () => {
         {
             title: "Action",
             dataIndex: "action",
-            render: (text, record) =>(
-                <div></div>
+            render: (text, record) => (
+                <>
+                    <div className='flex gap-4 '>
+                        <div className='cursor-pointer'><EditOutlined onClick={()=>navigate('/admin/exams/edit/${record._id}')} /></div>
+                        <div className='cursor-pointer'> <DeleteOutlined /></div>
+                    </div>
+
+                </>
             ),
         },
     ]
