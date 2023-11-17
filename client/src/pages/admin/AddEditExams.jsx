@@ -114,8 +114,11 @@ const AddEditExams = () => {
                 </Tabs>
 
 
-                <div className="flex justify-end">
+
+
+                <div className="flex justify-end gap-5">
                     <button className='btn btn-primary' type="submit">save</button>
+                    <button className='btn btn-primary' type="button" onClick={() => Navigate('/admin/exams')}>Cancel</button>
                 </div>
             </Form>}
 
