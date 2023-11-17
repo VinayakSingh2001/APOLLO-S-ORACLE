@@ -3,7 +3,7 @@ import PageTitle from '../../components/PageTitle'
 import { useNavigate } from 'react-router-dom'
 import { Table, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { getAllExams } from '../../apicalls/exams';
+import { deleteExamById, getAllExams } from '../../apicalls/exams';
 import { ShowLoading, HideLoading } from '../../Redux/bufferSlice';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
@@ -11,6 +11,42 @@ const Exams = () => {
     const navigate = useNavigate();
     const [exams, setExams] = React.useState([]);
     const dispatch = useDispatch();
+
+    const getExamsData = async () => {
+        try {
+            dispatch(ShowLoading())
+            const response = await getAllExams();
+            dispatch(HideLoading());
+            if (response.success) {
+                setExams(response.data);
+            } else {
+                message.error(response.message);
+            }
+        } catch (error) {
+            dispatch(HideLoading());
+            message.error(error.message);
+        }
+    }
+
+    const deleteExam = async (examId) => {
+        try {
+            dispatch(ShowLoading())
+            const response = await deleteExamById({
+                examId,
+            });
+            dispatch(HideLoading());
+            if (response.success) {
+                message.success(response.message);
+                getExamsData();
+            } else {
+                message.error(response.message);
+            }
+        } catch (error) {
+            dispatch(HideLoading());
+            message.error(error.message);
+        }
+    }
+
     const columns = [
         {
             title: "Exam Name",
@@ -38,31 +74,17 @@ const Exams = () => {
             render: (text, record) => (
                 <>
                     <div className='flex gap-4 '>
-                    {/* <i className="ri-pencil-line cursor-pointer"></i>
+                        {/* <i className="ri-pencil-line cursor-pointer"></i>
                     <i className="ri-delete-bin-line cursor-pointer"></i> */}
                         <div className='cursor-pointer'><EditOutlined onClick={() => navigate(`/admin/exams/edit/${record._id}`)} /></div>
-                        <div className='cursor-pointer'> <DeleteOutlined /></div>
+                        <div className='cursor-pointer'> <DeleteOutlined onClick={() => deleteExam(record._id)} /></div>
                     </div>
 
                 </>
             ),
         },
     ]
-    const getExamsData = async () => {
-        try {
-            dispatch(ShowLoading())
-            const response = await getAllExams();
-            dispatch(HideLoading());
-            if (response.success) {
-                setExams(response.data);
-            } else {
-                message.error(response.message);
-            }
-        } catch (error) {
-            dispatch(HideLoading());
-            message.error(error.message);
-        }
-    }
+
     useEffect(() => {
         getExamsData();
     }, [])
