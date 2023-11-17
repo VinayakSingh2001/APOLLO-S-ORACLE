@@ -29,3 +29,13 @@ export const getExamById = async (payload) => {
         return error.response.data;
       }
 }
+
+//edit exam by id
+export const editExamById = async (payload) => {
+  try {
+    const response = await axiosInstance.post("/api/exams/edit-exam-by-id", payload);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  };
+};

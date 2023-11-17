@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PageTitle from '../../components/PageTitle';
 import { Form, Col, Row, Select, message, Tabs } from "antd";
-import { addExam, getExamById } from '../../apicalls/exams';
+import { addExam, editExamById, getExamById } from '../../apicalls/exams';
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch } from 'react-redux';
 import { HideLoading, ShowLoading } from '../../Redux/bufferSlice';
@@ -17,8 +17,16 @@ const AddEditExams = () => {
     const [examData, setExamData] = React.useState(null);
     const onFinish = async (values) => {
         try {
-            dispatch(ShowLoading())
+            dispatch(ShowLoading());
             let response;
+            if (params.id) {
+                response = await editExamById({
+                    ...values,
+                    examId: params.id
+                });
+            } else {
+                response = await addExam(values);
+            }
             response = await addExam(values);
             if (response.success) {
                 message.success(response.message);
