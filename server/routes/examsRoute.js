@@ -81,4 +81,21 @@ router.post("/edit-exam-by-id", authMiddleware, async (req, res) => {
   }
 });
 
+//delete exam by id
+router.post("/delete-exam-by-id", authMiddleware, async (req,res) => {
+  try {
+    await Exam.findByIdAndDelete(req.body.examId);
+    res.send({
+      message: "Exam deleted successfully",
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+      data: error,
+      success: false,
+    });
+  }
+});
+
 module.exports = router;
