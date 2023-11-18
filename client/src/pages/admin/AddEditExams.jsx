@@ -106,9 +106,15 @@ const AddEditExams = () => {
                                 </Form.Item>
                             </Col>
                         </Row>
+                        <div className="flex justify-end gap-5">
+                            <button className='btn btn-primary' type="submit">save</button>
+                            <button className='btn btn-primary' type="button" onClick={() => Navigate('/admin/exams')}>Cancel</button>
+                        </div>
                     </TabPane>
                     {params.id && <TabPane tab="Questions" key="2">
-                        <h1>Questions</h1>
+                        <div className="flex justify-end">
+                            <button className='primary outlined-btn' type="submit">Add Question</button>
+                        </div>
                     </TabPane>}
 
                 </Tabs>
@@ -116,10 +122,7 @@ const AddEditExams = () => {
 
 
 
-                <div className="flex justify-end gap-5">
-                    <button className='btn btn-primary' type="submit">save</button>
-                    <button className='btn btn-primary' type="button" onClick={() => Navigate('/admin/exams')}>Cancel</button>
-                </div>
+
             </Form>}
 
         </div>
