@@ -5,6 +5,7 @@ import { addExam, editExamById, getExamById } from '../../apicalls/exams';
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch } from 'react-redux';
 import { HideLoading, ShowLoading } from '../../Redux/bufferSlice';
+import AddEditQuestion from './AddEditQuestion';
 
 const { TabPane } = Tabs;
 
@@ -14,6 +15,7 @@ const AddEditExams = () => {
     const Navigate = useNavigate();
     const params = useParams();
     const [examData, setExamData] = React.useState(null);
+    const [showAddEditQuestionModal, setShowAddEditQuestionModal] = React.useState(false);
     const onFinish = async (values) => {
         try {
             dispatch(ShowLoading());
@@ -112,7 +114,7 @@ const AddEditExams = () => {
                     </TabPane>
                     {params.id && <TabPane tab="Questions" key="2">
                         <div className="flex justify-end">
-                            <button className='primary outlined-btn' type="submit">Add Question</button>
+                            <button className='primary outlined-btn' type="button" onClick={() => setShowAddEditQuestionModal(true)}>Add Question</button>
                         </div>
                     </TabPane>}
 
@@ -123,6 +125,13 @@ const AddEditExams = () => {
 
 
             </Form>}
+
+            {showAddEditQuestionModal && <AddEditQuestion 
+            setShowAddEditQuestionModal = {setShowAddEditQuestionModal}
+            showAddEditQuestionModal = {showAddEditQuestionModal}
+            examId = {params.id}
+            refreshData = {getExamData}
+            />}
 
         </div>
     )
