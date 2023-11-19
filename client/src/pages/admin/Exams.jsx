@@ -74,8 +74,6 @@ const Exams = () => {
             render: (text, record) => (
                 <>
                     <div className='flex gap-4 '>
-                        {/* <i className="ri-pencil-line cursor-pointer"></i>
-                    <i className="ri-delete-bin-line cursor-pointer"></i> */}
                         <div className='cursor-pointer'><EditOutlined onClick={() => navigate(`/admin/exams/edit/${record._id}`)} /></div>
                         <div className='cursor-pointer'> <DeleteOutlined onClick={() => deleteExam(record._id)} /></div>
                     </div>

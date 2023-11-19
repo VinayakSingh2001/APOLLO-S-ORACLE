@@ -5,7 +5,6 @@ import { addExam, editExamById, getExamById } from '../../apicalls/exams';
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch } from 'react-redux';
 import { HideLoading, ShowLoading } from '../../Redux/bufferSlice';
-// import TabPane from 'antd/es/tabs/TabPane';
 
 const { TabPane } = Tabs;
 
